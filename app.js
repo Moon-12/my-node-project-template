@@ -1,17 +1,16 @@
 const express = require("express");
 const morgan = require("morgan");
-
-const app = express();
+const bodyParser = require("body-parser");
 const dummyEndpointRoutes = require("./api/routes/dummyEndpointRoutes");
 
-// this is a middleware and every request has to pass thrgh this
-// app.use((req, res, next) => {
-//   res.status(200).json({
-//     message: "it works",
-//   });
-// });
+const app = express();
+
+// app.use acts as a middleware and every request has to pass thrgh this
 
 app.use(morgan("dev"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use("/dummy-endpoint", dummyEndpointRoutes);
 
 //handling error
