@@ -11,6 +11,19 @@ app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+  res.header("Allow-Control-Allow-Origin", "*");
+  res.header(
+    "Allow-Control-Allow-Headers",
+    "Origin,X-Requeste-With,Content-Type,Accept,Authorization"
+  );
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT,POST,DELETE,GET,PATCH");
+    return res.status(200).json({});
+  }
+  next();
+});
+
 app.use("/dummy-endpoint", dummyEndpointRoutes);
 
 //handling error
